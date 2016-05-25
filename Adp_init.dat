@@ -1,0 +1,18 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/11/18 at 15:24:23
+ *********************************************/
+
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+
+DBExecute(db,"drop table ADP_sample_point");
+DBExecute(db,"drop table ADP_obj");
+DBExecute(db,"create table ADP_sample_point (k int, w int, y int, l int ,ss int, S float, D float)");
+DBExecute(db,"create table ADP_obj (k int, w int, y int, l int , obj1 float , obj2 float ,flag int ,flag2 int)");
+//DBExecute(db,"SET IDENTITY_INSERT ADP_sample_point ON");
+DBExecute(db,"SET TRANSACTION ISOLATION LEVEL SEARIALIZABLE");//トランザクション分離レベル。
+
+Samp to DBUpdate(db,"INSERT INTO ADP_sample_point(k,w,y,l,ss,S,D) VALUES(?,?,?,?,?,?,?)");
+Obj to DBUpdate(db,"INSERT INTO ADP_obj(k,w,y,l,obj1,obj2,flag,flag2) VALUES(?,?,?,?,?,?,?,?)");

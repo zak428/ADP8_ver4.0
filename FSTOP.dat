@@ -1,0 +1,9 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/12/15 at 17:36:23
+ *********************************************/
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+
+f from DBRead(db,"select FSTOP from ADP_FSTOP");//Žû‘©”»’è

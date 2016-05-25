@@ -1,0 +1,35 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/11/18 at 15:24:23
+ *********************************************/
+
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+
+samp_SD from DBRead(db, "select k,w,y,l,ss,S,D from ADP_sample_point where S is not null or D is not null");
+
+
+samp_L from DBRead(db,"WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY NEWID()) as snr,k,w,y,l,flag FROM ADP_obj WHERE flag=1)SELECT * FROM cte WHERE snr <= (SELECT SN FROM DataSet1)");
+samp_L2 from DBRead(db,"WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY NEWID()) as snr,k,w,y,l,flag FROM ADP_obj WHERE flag>=2)SELECT * FROM cte WHERE snr <= (SELECT SN FROM DataSet1)");
+samp_L_y0 from DBRead(db, "WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY l desc) as snr,k,w,y,l,flag FROM ADP_obj where y=0)SELECT * FROM cte");
+samp_LL from DBRead(db,"SELECT k,w,y,MAX(l) as maxl FROM ADP_obj GROUP BY k,w,y");
+
+obj_db from DBRead(db, "select k,w,y,l,obj1,obj2,flag,flag2 from ADP_obj where obj1 is not null or obj2 is not null");
+
+Obj to DBUpdate(db,"UPDATE ADP_Obj SET obj1 = ? , obj2 = ? , flag = ? , flag2 = ? where  k = ? AND w= ? AND y = ? AND l = ? AND flag < ?");
+Obj_n to DBUpdate(db,"INSERT INTO ADP_Obj(k,w,y,l,obj1,obj2,flag,flag2) VALUES(?,?,?,?,?,?,?,?)");
+
+Samp to DBUpdate(db,"UPDATE ADP_sample_point SET S = ? , D = ? where  k = ? AND w= ? AND y = ? AND l = ? AND ss = ?");
+Samp_n to DBUpdate(db,"INSERT INTO ADP_sample_point(k,w,y,l,ss,S,D) VALUES(?,?,?,?,?,?,?)");
+
+fstop to DBUpdate(db,"update ADP_FSTOP set FSTOP = ?");//収束判定
+
+//DEBUG to DBUpdate(db,"INSERT INTO ADP_debug_db(y,DBnum,str1,str2,str3,str4,str5,str6,str7,up) VALUES(?,?,?,?,?,?,?,?,?,?)");
+//DBExecute(db,"DELETE a FROM (SELECT ROW_NUMBER() OVER (PARTITION BY y,DBnum,update ORDER BY y) SEQ , * FROM ADP_debug_db) a WHERE SEQ>1");//被ってる行は一つを残して削除
+
+//重複用
+//DBExecute(db,"update ADP_obj set k=-1 where ID IN (select ID from (select ID,k,w,y,l,row_number() over (partition by k,w,y,l order by flag desc) as R from ADP_obj) as z where k = z.k and w =z.w and y = z.y and ID=z.ID and l = z.l and R!=1 )");//被ってる行はflagが大きいほうを残して大きいものはすべて除外(k=-1)
+//DBExecute(db,"update ADP_sample_point set k=-1 where ID IN (select ID from (select ID,k,w,y,l,row_number() over (partition by k,w,y,l order by flag desc) as R from ADP_sample_point) as z where k = z.k and w =z.w and y = z.y and ID=z.ID and l = z.l and R!=1 )");//被ってる行はflagが大きいほうを残して大きいものはすべて除外(k=-1)
+
+//DBExecute(db,"DELETE a FROM (SELECT ROW_NUMBER() OVER (PARTITION BY k,w,y,l,obj1,obj2) SEQ , * FROM ADP_obj) a WHERE SEQ>1");//被ってる行は一つを残して削除

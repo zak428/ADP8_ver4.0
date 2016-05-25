@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<configs>
+		<config default="true" name="&amp;#27083;&amp;#25104; 1" category="opl">
+			<ref type="model" name="main_loop.mod">
+			</ref>
+			<ref type="setting" name="main_loop.ops">
+			</ref>
+		</config>
+		<config default="false" name="&amp;#27083;&amp;#25104; 2" category="opl">
+			<ref type="model" name="Make_Init_data.mod">
+			</ref>
+			<ref type="data" name="Make_Init_data.dat">
+			</ref>
+		</config>
+		<config default="false" name="&amp;#27083;&amp;#25104; 3" category="opl">
+			<ref type="model" name="Init.mod">
+			</ref>
+			<ref type="data" name="Init.dat">
+			</ref>
+		</config>
+		<config default="false" name="&amp;#27083;&amp;#25104; 4" category="opl">
+			<ref type="data" name="Adp_loop_J2.dat">
+			</ref>
+			<ref type="model" name="_Adp_loop_J2_botu.mod">
+			</ref>
+		</config>
+		<config default="false" name="&amp;#27083;&amp;#25104; 5" category="opl">
+			<ref type="model" name="FSTOP.mod">
+			</ref>
+			<ref type="data" name="FSTOP.dat">
+			</ref>
+		</config>
+		<config default="false" name="&amp;#27083;&amp;#25104; 6" category="opl">
+			<ref type="model" name="Adp_init.mod">
+			</ref>
+			<ref type="data" name="Adp_init.dat">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

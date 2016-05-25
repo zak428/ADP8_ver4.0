@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings version="2">
+  <category name="cplex">
+    <setting name="numericalemphasis" value="true"/>
+    <setting name="simdisplay" value="0"/>
+    <setting name="singlim" value="30"/>
+    <setting name="lpmethod" value="2"/>
+    <setting name="clocktype" value="1"/>
+  </category>
+</settings>

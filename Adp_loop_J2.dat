@@ -1,0 +1,24 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/11/18 at 15:24:23
+ *********************************************/
+
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+
+samp_SD from DBRead(db, "select k,w,y,l,ss,S,D from ADP_sample_point where S is not null or D is not null");
+
+samp_L from DBRead(db,"WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY l asc) as snr,k,w,y,l,flag2 FROM ADP_obj as A WHERE flag2=1 and exists (select 1 from ADP_obj where A.k=k and A.l=l and A.y=y-1 and A.w=w and A.l=l and (flag2 >= 2)))SELECT * FROM cte WHERE snr <= (SELECT SN FROM DataSet1)");
+samp_L2 from DBRead(db,"WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY (obj2-obj1) desc) as snr,k,w,y,l,flag2 FROM ADP_obj WHERE flag2>=2 and l!= 0)SELECT * FROM cte WHERE snr <= (SELECT SN FROM DataSet1)");
+samp_L_y0 from DBRead(db, "WITH cte AS (SELECT ROW_NUMBER() OVER(PARTITION BY k,w,y ORDER BY l desc) as snr,k,w,y,l,flag2 FROM ADP_obj where y=0)SELECT * FROM cte");
+samp_LL from DBRead(db,"SELECT k,w,y,MAX(l) as maxl FROM ADP_obj GROUP BY k,w,y");
+
+obj_db from DBRead(db, "select k,w,y,l,obj2,flag,flag2 from ADP_obj where obj1 is not null or obj2 is not null");
+
+Obj to DBUpdate(db,"UPDATE ADP_Obj SET obj2 = ? , flag2 = ?  where  k = ? AND w= ? AND y = ? AND l = ? AND ( obj2=0 OR (flag2 < ?) OR obj2 is null)");
+
+//Samp0_n to DBUpdate(db,"INSERT INTO ADP_sample_point(k,w,y,l,S_0,D_0,S_1,D_1,S_2,D_2,S_3,D_3,obj2,flag) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+//DEBUG to DBUpdate(db,"INSERT INTO ADP_debug_db(y,DBnum,str1,str2,str3,str4,str5,str6,str7,up) VALUES(?,?,?,?,?,?,?,?,?,?)");
+//DBExecute(db,"DELETE a FROM (SELECT ROW_NUMBER() OVER (PARTITION BY y,DBnum,update ORDER BY y) SEQ , * FROM ADP_debug_db) a WHERE SEQ>1");//”í‚Á‚Ä‚és‚Íˆê‚Â‚ðŽc‚µ‚Äíœ

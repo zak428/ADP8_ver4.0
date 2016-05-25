@@ -1,0 +1,58 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/12/15 at 17:36:23
+ *********************************************/
+SheetConnection sheet("InputData.xls"); //This Excel file must be placed in the same folder of the Project.
+
+H from SheetRead(sheet,"H");//1
+EY from SheetRead(sheet,"EY");//1
+P from SheetRead(sheet,"P");//1
+R from SheetRead(sheet,"RR");//1
+Load from SheetRead(sheet,"Load");//24
+MaxLoad from SheetRead(sheet, "MAX");//1
+PFC from SheetRead(sheet, "PFC");//4
+PVC from SheetRead(sheet, "PVC");//4
+UP from SheetRead(sheet, "UP");//4
+Smin from SheetRead(sheet, "KPmin");//4
+
+Y from SheetRead(sheet,"Y");//1
+W from SheetRead(sheet,"W");//1
+M from SheetRead(sheet,"M");//1
+N from SheetRead(sheet,"N");//1
+L from SheetRead(sheet,"L");//1
+TP from SheetRead(sheet,"TP");
+TS from SheetRead(sheet,"TS");//41
+GSS from SheetRead(sheet,"GSS");//41
+SN from SheetRead(sheet,"SN");//1
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");//Move Input parameters to the SQL Server
+
+DBExecute(db,"drop table DataSet1");
+DBExecute(db,"create table DataSet1(H int,EY int,P int,RR float,MAX float,Y int,W int,M int,N int,L int,SN int)");
+data1 to DBUpdate(db,"INSERT INTO DataSet1(H,EY,P,RR,MAX,Y,W,M,N,L,SN) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+
+DBExecute(db,"drop table DataSet2");
+DBExecute(db,"create table DataSet2(p int,PFC float,PVC float,UP float,KPmin float)");
+data2 to DBUpdate(db,"INSERT INTO DataSet2(p,PFC,PVC,UP,KPmin) VALUES(?,?,?,?,?)");
+
+DBExecute(db,"drop table DataLoad");
+DBExecute(db,"create table DataLoad(h int,Load float)");
+data_Load to DBUpdate(db,"INSERT INTO DataLoad(h,Load) VALUES(?,?)");
+
+DBExecute(db,"drop table DataTP");
+DBExecute(db,"create table DataTP(c int,w int,TP float)");
+data_TP to DBUpdate(db,"INSERT INTO DataTP(c,w,TP) VALUES(?,?,?)");
+
+DBExecute(db,"drop table DataTS");
+DBExecute(db,"create table DataTS(m int,TS int)");
+data_TS to DBUpdate(db,"INSERT INTO DataTS(m,TS) VALUES(?,?)");
+
+DBExecute(db,"drop table DataGSS");
+DBExecute(db,"create table DataGSS(m int,n int,GSS float)");
+data_GSS to DBUpdate(db,"INSERT INTO DataGSS(m,n,GSS) VALUES(?,?,?)");
+
+DBConnection db2("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+DBExecute(db2,"drop table ADP_FSTOP");
+DBExecute(db2,"create table ADP_FSTOP(FSTOP int)");
+DBExecute(db2,"INSERT INTO ADP_FSTOP VALUES(0)");//Žû‘©”»’è

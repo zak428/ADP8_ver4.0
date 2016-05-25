@@ -1,0 +1,29 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: uchida
+ * Creation Date: 2015/12/15 at 17:36:23
+ *********************************************/
+
+DBConnection db("oledb","uchida/Uchida0428_/ADP8_ver4.0_db/MUTSU\\ENDUSE");
+
+dataH from DBRead(db, "select H from DataSet1");
+dataEY from DBRead(db, "select EY from DataSet1");
+dataP from DBRead(db, "select P from DataSet1");
+dataRR from DBRead(db, "select RR from DataSet1");
+dataMAX from DBRead(db, "select MAX from DataSet1");
+dataY from DBRead(db, "select Y from DataSet1");
+dataW from DBRead(db, "select W from DataSet1");
+dataM from DBRead(db, "select M from DataSet1");
+dataN from DBRead(db, "select N from DataSet1");
+dataL from DBRead(db, "select L from DataSet1");
+dataSN from DBRead(db, "select SN from DataSet1");
+
+dataPFC from DBRead(db, "select p,PFC from DataSet2");
+dataPVC from DBRead(db, "select p,PVC from DataSet2");
+dataUP from DBRead(db, "select p,UP from DataSet2");
+dataKPmin from DBRead(db, "select p,KPmin from DataSet2");
+
+dataLoad from DBRead(db, "select * from DataLoad");
+dataTP from DBRead(db, "select * from DataTP order by c");
+dataTS from DBRead(db, "select * from DataTS");
+dataGSS from DBRead(db, "select * from DataGSS order by m");
